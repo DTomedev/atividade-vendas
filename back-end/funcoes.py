@@ -48,8 +48,22 @@ def listar_produtos():
             return cursor.fetchall()
             
         except Exception as erro:
-            print(f"Erro ao tentar produtos filmes: {erro}")
+            print(f"Erro ao tentar listar produtos: {erro}")
         finally:
             cursor.close()
             conexao.close()
         
+def atualizar_filme(id_produto, novo_preco, nova_quantidade):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute(
+            "UPDATE filmes SET quantidade = %s WHERE Id = %s SET preco = %s",
+            (id_produto, novo_preco, nova_quantidade)
+            )
+            conexao.commit()
+        except Exception as erro:
+            print(f"Erro ao tentar atualizar produtos: {erro}")
+        finally:
+            cursor.close()
+            conexao.close()
