@@ -47,4 +47,4 @@ def remover_produtos(id_produto: int):
         deletar_produtos(id_produto)
         return { "mensagem": "Produto removido com sucesso!"}
     else:
-        return { "erro": "Filme não encontrado!"}
+        return { "erro": "Produto não encontrado!"}
