@@ -52,6 +52,7 @@ def listar_produtos():
         finally:
             cursor.close()
             conexao.close()
+    
         
 def atualizar_filme(id_produto, novo_preco, nova_quantidade):
     conexao, cursor = conectar()
@@ -64,6 +65,22 @@ def atualizar_filme(id_produto, novo_preco, nova_quantidade):
             conexao.commit()
         except Exception as erro:
             print(f"Erro ao tentar atualizar produtos: {erro}")
+        finally:
+            cursor.close()
+            conexao.close()
+
+
+def deletar_filme(id_produto):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute(
+                "DELETE FROM filmes WHERE id = %s",
+                (id_produto,)
+                )
+            conexao.commit()
+        except Exception as erro:
+            print(f"Erro ao tentar deletar produto: {erro}")
         finally:
             cursor.close()
             conexao.close()
