@@ -59,7 +59,7 @@ def atualizar_produtos(id_produto, novo_preco, nova_quantidade):
     if conexao:
         try:
             cursor.execute(
-            "UPDATE filmes SET quantidade = %s WHERE Id = %s SET preco = %s",
+            "UPDATE filmes WHERE Id = %s SET preco = %s SET quantidade = %s",
             (id_produto, novo_preco, nova_quantidade)
             )
             conexao.commit()
@@ -81,6 +81,22 @@ def deletar_produtos(id_produto):
             conexao.commit()
         except Exception as erro:
             print(f"Erro ao tentar deletar produto: {erro}")
+        finally:
+            cursor.close()
+            conexao.close()
+
+
+def buscar_produtos(id_produto):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute(
+            "SELECT * FROM filmes WHERE id = %s", (id_produto,)
+            )
+            return cursor.fetchall()
+            
+        except Exception as erro:
+            print(f"Erro ao tentar buscar Produtos: {erro}")
         finally:
             cursor.close()
             conexao.close()
