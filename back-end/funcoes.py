@@ -8,8 +8,8 @@ def criar_tabela():
                 CREATE TABLE IF NOT EXISTS produtos (
                 id SERIAL PRIMARY KEY,
                 nome VARCHAR(100) NOT NULL,
-                categoria VARCHAR(50),
-                preco NUMERIC(10,2),
+                categoria VARCHAR(50) NOT NULL,
+                preco NUMERIC(10,2) NOT NULL,
                 quantidade INT
                 """);
             conexao.commit()
@@ -36,7 +36,7 @@ def inserir_produtos(nome, categoria, preco, quantidade):
             cursor.close()
             conexao.close()
 
-#inserir_produto("", "", , )
+#inserir_produtos("Ryzen 5 5600GT", "Processador", 900, 7)
 
 def listar_produtos():
     conexao, cursor = conectar()
@@ -52,9 +52,9 @@ def listar_produtos():
         finally:
             cursor.close()
             conexao.close()
-    
-        
-def atualizar_filme(id_produto, novo_preco, nova_quantidade):
+
+
+def atualizar_produtos(id_produto, novo_preco, nova_quantidade):
     conexao, cursor = conectar()
     if conexao:
         try:
@@ -70,7 +70,7 @@ def atualizar_filme(id_produto, novo_preco, nova_quantidade):
             conexao.close()
 
 
-def deletar_filme(id_produto):
+def deletar_produtos(id_produto):
     conexao, cursor = conectar()
     if conexao:
         try:
