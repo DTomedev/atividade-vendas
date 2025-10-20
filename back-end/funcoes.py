@@ -21,7 +21,7 @@ def criar_tabela():
 
 #criar_tabela()
 
-def inserir_produto(nome, categoria, preco, quantidade):
+def inserir_produtos(nome, categoria, preco, quantidade):
     conexao, cursor = conectar()
     if conexao:
         try:
@@ -37,3 +37,19 @@ def inserir_produto(nome, categoria, preco, quantidade):
             conexao.close()
 
 #inserir_produto("", "", , )
+
+def listar_produtos():
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute(
+            "SELECT * FROM produtos ORDER BY ID",
+            )
+            return cursor.fetchall()
+            
+        except Exception as erro:
+            print(f"Erro ao tentar produtos filmes: {erro}")
+        finally:
+            cursor.close()
+            conexao.close()
+        
