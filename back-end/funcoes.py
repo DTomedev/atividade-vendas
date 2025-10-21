@@ -20,7 +20,7 @@ def criar_tabela():
             cursor.close()
             conexao.close()   
 
-#criar_tabela()
+criar_tabela()
 
 def inserir_produtos(nome, categoria, preco, quantidade):
     conexao, cursor = conectar()
@@ -37,7 +37,7 @@ def inserir_produtos(nome, categoria, preco, quantidade):
             cursor.close()
             conexao.close()
 
-#inserir_produtos("Ryzen 5 5600GT", "Processador", 900, 7)
+inserir_produtos("Ryzen 5 5600GT", "Processador", 900, 7)
 
 def listar_produtos():
     conexao, cursor = conectar()

@@ -9,3 +9,16 @@ st.title("Estoque de Produtos HARDWARE ⚙")
 
 #Menu lateral
 menu = st.sidebar.radio("Navegação", ["Catálogo", "Adicionar Produto", "Atualizar Produto", "Deletar"])
+
+if menu == "Catálogo":
+    st.subheader("Todos os Produtos Disponíveis")
+    response = requests.get(f"{API_URL}/produtos")
+    if response.status_code == 200:
+        produtos = response.json().get("produtos", [])
+        if produtos:
+                st.dataframe(produtos)
+        else:
+            st.error("Nenhum produto disponível")   
+    else:
+        st.error("Erro ao acessar a API")
+        
