@@ -11,6 +11,7 @@ def criar_tabela():
                 categoria VARCHAR(50) NOT NULL,
                 preco NUMERIC(10,2) NOT NULL,
                 quantidade INT
+                )
                 """);
             conexao.commit()
         except Exception as erro:
@@ -59,8 +60,8 @@ def atualizar_produtos(id_produto, novo_preco, nova_quantidade):
     if conexao:
         try:
             cursor.execute(
-            "UPDATE filmes WHERE Id = %s SET preco = %s SET quantidade = %s",
-            (id_produto, novo_preco, nova_quantidade)
+            "UPDATE produtos SET preco = %s, quantidade = %s WHERE Id = %s",
+            (novo_preco, nova_quantidade, id_produto)
             )
             conexao.commit()
         except Exception as erro:
@@ -75,7 +76,7 @@ def deletar_produtos(id_produto):
     if conexao:
         try:
             cursor.execute(
-                "DELETE FROM filmes WHERE id = %s",
+                "DELETE FROM produtos WHERE id = %s",
                 (id_produto,)
                 )
             conexao.commit()
@@ -91,7 +92,7 @@ def buscar_produtos(id_produto):
     if conexao:
         try:
             cursor.execute(
-            "SELECT * FROM filmes WHERE id = %s", (id_produto,)
+            "SELECT * FROM produtos WHERE id = %s", (id_produto,)
             )
             return cursor.fetchall()
             
