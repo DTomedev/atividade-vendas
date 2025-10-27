@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 #URL da API FastAPI
 API_URL = "http://127.0.0.1:8000"
@@ -58,11 +59,18 @@ elif menu == "Remover":
         response = requests.get(f"{API_URL}/produtos/{id_produto}")
         if response.status_code == 200:
             produto = response.json()
-            df = st.dataframe([produto])
+            st.dataframe(pd.DataFrame([produto]))
+
             confirmar = st.checkbox("Confirmar remoção do produto")
+
             if confirmar:
-                delete_response = requests.delete(f"{API_URL}/produtos/{id_produto}")
-                if delete_response.status_code == 200:
+                try:
+                    delete_response = requests.delete(f"{API_URL}/produtos/{id_produto}")
+                    if delete_response.status_code == 200:
                         st.success("Produto removido com sucesso!")
-                else:
-                    st.error(f"Erro ao remover o produto (código {})")
+                    else:
+                        st.error(f"Erro ao remover o produto: {delete_response.text}")
+                except Exception as erro:
+                    st.error(f"Erro ao remover o produto: {erro}")
+        else:
+            st.error("Produto não encontrado")
