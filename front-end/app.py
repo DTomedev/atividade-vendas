@@ -8,7 +8,7 @@ st.set_page_config(page_title="Estoque HARDWARE",page_icon="⚙")
 st.title("Estoque de Produtos HARDWARE ⚙")
 
 #Menu lateral
-menu = st.sidebar.radio("Navegação", ["Catálogo", "Adicionar Produto", "Atualizar Produto", "Deletar"])
+menu = st.sidebar.radio("Navegação", ["Catálogo", "Adicionar Produto", "Atualizar Produto", "Remover"])
 
 if menu == "Catálogo":
     st.subheader("Todos os Produtos Disponíveis")
@@ -36,3 +36,33 @@ elif menu == "Adicionar Produto":
             st.success("produto adicionado com sucesso!")
         else:
              st.error("Erro ao adicionar o produto")
+
+elif menu == "Atualizar Produto":
+    st.subheader("Atualizar Produto")
+    id_produto = st.number_input("Digite o ID do produto: ", min_value=1)
+    novo_preco = st.number_input("Digite o novo preço do produto:", max_value=10000, min_value=0, step=10)
+    nova_quantidade = st.number_input("Digite a nova quantidade do produto: ", max_value=100, min_value=0, step=1)
+    
+    if st.button("Salvar"):
+        dados = { "preco": novo_preco, "quantidade": nova_quantidade}
+        response = requests.put(f"{API_URL}/produtos/{id_produto}", params=dados)
+        if response.status_code == 200:
+            st.success("produto atualizado com sucesso!")
+        else:
+             st.error("Erro ao atualizar o produto")
+
+elif menu == "Remover":
+    st.subheader("Remover Produto")
+    id_produto = st.number_input("Digite o ID do produto: ", min_value=1)
+    if st.button("Buscar Produto"):
+        response = requests.get(f"{API_URL}/produtos/{id_produto}")
+        if response.status_code == 200:
+            produto = response.json()
+            df = st.dataframe([produto])
+            confirmar = st.checkbox("Confirmar remoção do produto")
+            if confirmar:
+                delete_response = requests.delete(f"{API_URL}/produtos/{id_produto}")
+                if delete_response.status_code == 200:
+                        st.success("Produto removido com sucesso!")
+                else:
+                    st.error(f"Erro ao remover o produto (código {})")
